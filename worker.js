@@ -187,8 +187,7 @@ async function StartWorkers(){
                     });
                 };
             });
-
-
+            
             const OldClubLogData = await (await ClubLogs.find()).filter(m => m.club.tag == ClubResponse.data.tag);
 
             if (OldClubLogData.length == 0){

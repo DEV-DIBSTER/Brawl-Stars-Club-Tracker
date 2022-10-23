@@ -1,0 +1,1 @@
+//This will be used to remove unnecessary clubs from the databases.
