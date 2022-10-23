@@ -28,13 +28,13 @@ module.exports = ({
         if(JSONResponse.hasOwnProperty('isTrackingLogs') == false || typeof JSONResponse.isTrackingLogs != 'boolean') return Response.status(404).send('Invalid body arguements!');
 
         const OldData = await ClubTracking.findOne({
-            clubTag: ClubResponse.tag
+            clubTag: ClubResponse.data.tag
         });
 
         if(OldData == undefined) return Response.status(404).send('The club with this tag is not being tracked!');
 
         await ClubTracking.findOneAndUpdate({
-            clubTag: ClubResponse.tag
+            clubTag: ClubResponse.data.tag
         }, {
             isTrackingLogs: JSONResponse.isTrackingLogs,
             isTrackingGraphs: JSON.isTrackingGraphs
@@ -42,7 +42,7 @@ module.exports = ({
 
         await Response.status(202).send({
             message: "Successfully changed club in tracking.",
-            ClubTag: ClubResponse.tag,
+            ClubTag: ClubResponse.data.tag,
             isTrackingLogs: JSONResponse.isTrackingLogs,
             isTrackingGraphs: JSONResponse.isTrackingGraphs
         });

@@ -9,14 +9,14 @@ const ClubLogsModel = new Mongoose.Schema({
         memberCount: { required: true, type: Number }, 
         description: { required: true, type: String }, 
         lastUpdated: { required: true, type: String },
-        history: [
-            {
-                type: { required: true, type: String },
-                data: { required: true, type: Object },
-                time: { required: true, type: String }
-            }
-        ]
-    }
+    },
+    history: [
+        {
+            type: { required: true, type: String },
+            data: { required: true, type: Object },
+            timestamp: { required: true, type: String }
+        }
+    ]
 });
 
 const ClubLogs = Mongoose.model('ClubLogs', ClubLogsModel);

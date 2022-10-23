@@ -23,18 +23,18 @@ module.exports = ({
         if(ClubResponse == "No Data Found") return Response.status(404).send('Invalid club tag characters!');
 
         const OldData = await ClubTracking.findOne({
-            clubTag: ClubResponse.tag
+            clubTag: ClubResponse.data.tag
         });
 
         if(OldData == undefined) return Response.status(404).send('The club with this tag is not being tracked!');
 
         await ClubTracking.findOneAndDelete({
-            clubTag: ClubResponse.tag
+            clubTag: ClubResponse.data.tag
         }).catch(console.error);
 
         await Response.status(202).send({
             message: "Successfully deleted club from tracking.",
-            ClubTag: ClubResponse.tag
+            ClubTag: ClubResponse.data.tag
         });
     }
 });
