@@ -1,4 +1,4 @@
-function IsTag(tag){
+function isTag(tag){
     if (tag.length < 3) return false;
     for (let i = 0; i < tag.length; i++) {
         if (!'0289CGJLPQRUVY'.includes(tag[i])){
@@ -8,4 +8,4 @@ function IsTag(tag){
     return true;
 };
 
-module.exports = { IsTag };
+module.exports = { isTag };

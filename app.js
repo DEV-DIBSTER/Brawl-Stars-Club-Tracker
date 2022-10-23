@@ -13,49 +13,14 @@ const ClubTracking = require('./Database/ClubTracking.js');
 const { isTag } = require('./Functions/isTag.js');
 const { getClub } = require('./Functions/getClub.js');
 
-Server.post('/tracking/:clubTag', async (Request, Response) => {
-    if(!Configuration.APITokens.some(Token => Token == Request.headers.password)) return Response.status(403).send('Invalid authentication.');
-
-    const Input = Request.params.clubTag;
-    if(isTag(Input.replace('#', '').replace('%23', '')) == false) return Response.status(404).send('Invalid club tag characters!');
-
-    const ClubResponse = await getClub(Input.replace('#', '').replace('%23', ''));
-    if(ClubResponse == "No Data Found") return Response.status(404).send('Invalid club tag characters!');
-    
-    const JSONResponse = Request.body;
-
-    if(typeof JSONResponse.isTrackingGraphs == 'boolean') return Response.status(404).send('Invalid body arguements!');
-    if(typeof JSONResponse.isTrackingLogs == 'boolean') return Response.status(404).send('Invalid body arguements!');
-
-    const IfOldData = await ClubTracking.findOne({
-        clubTag: ClubResponse.tag
-    });
-
-    const NewClubTracking = await ClubTracking.create({
-        clubTag: ClubResponse.tag,
-        timeSaved: `${Date.now()}`,
-        isTrackingLogs: JSONResponse.isTrackingLogs,
-        isTrackingGraphs: JSONResponse.isTrackingGraphs
-    });
-
-    NewClubTracking.save();
-
-    await Response.status(200).send({
-        message: "Success",
-        ClubTag: ClubResponse.tag,
-        isTrackingLogs: JSONResponse.isTrackingLogs,
-        isTrackingGraphs: JSONResponse.isTrackingGraphs
-    });
-});
-
-Server.delete('/tracking/:clubTag', async (Request, Response) => {
-    if(!Configuration.APITokens.some(Token => Token == Request.headers.password)) return Response.status(403).send('Invalid authentication.');
-
-    const Input = Request.params.clubTag;
-    if(isTag(Input.replace('#', '').replace('%23', '')) == false) return Response.status(404).send('Invalid club tag characters!');
-
-    const ClubResponse = await getClub(Input.replace('#', '').replace('%23', ''));
-    if(ClubResponse == "No Data Found") return Response.status(404).send('Invalid club tag characters!'); 
+Server.all('/tracking/:clubTag', async (Request, Response) => {
+    if(Request.method == 'POST'){
+        await require('./Endpoints/tracking-post.js').run(Request, Response);
+    } else if (Request.method == 'DELETE') {
+        await require('./Endpoints/tracking-delete.js').run(Request, Response);
+    } else if (Request.method == 'PATCH') {
+        await require('./Endpoints/tracking-patch.js').run(Request, Response);
+    };
 });
 
 Server.get('/', async (Request, Response) => {
@@ -67,4 +32,8 @@ Server.listen(Configuration.Port, function () {
 
     console.log(`${Divider}`);    
     console.log(`${Chalk.greenBright(`[Server] | `)}${Chalk.bold.blueBright(`Server is online at: ${Configuration.URL} at port ${Configuration.Port}!`)}`);
+});
+
+Server.on('listening', async function () {
+    require('./worker.js');
 });

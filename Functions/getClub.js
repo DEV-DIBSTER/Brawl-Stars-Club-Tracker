@@ -5,11 +5,11 @@ const Chalk = require('chalk');
 const BaseURL = 'https://dibster.is-a.tech/v1';
 const Configuration = require('../config.json');
 
-const { IsTag } = require('./isTag.js');
+const { isTag } = require('./isTag.js');
 
 
 async function getClub(ClubTag){
-    if(IsTag(`${ClubTag.replace('#', '')}`) == false) return;
+    if(isTag(`${ClubTag.replace('#', '')}`) == false) return;
 
     const Response = await Axios({
         url: `${BaseURL}/clubs/%23${ClubTag.replace('#', '')}`,
