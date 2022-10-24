@@ -33,7 +33,7 @@ async function getClub(ClubTag){
                 requiredTrophies: Response.data.requiredTrophies,
                 trophies: Response.data.trophies,
                 members: Response.data.members,
-                isFull: Response.data.members.length == 100
+                isFull: Response.data.members.length == 30
             },
             error: false,
             status: Response.status,
