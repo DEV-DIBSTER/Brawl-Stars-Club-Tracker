@@ -146,7 +146,7 @@ module.exports = ({
                     };
                 };
         
-                if (roleValue(r.role) < roleValue(m.role)){
+                if (roleValue(m.role) < roleValue(r.role)){
                     Promotion = true;
                     Demotion = false;
                 } else {
