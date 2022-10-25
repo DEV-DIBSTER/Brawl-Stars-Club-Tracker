@@ -23,5 +23,5 @@ Mongoose.connect(Configuration.MongoDB)
 })
 
 .then(async () => {
-    require('./worker.js'); //Starts all the requests and functions.
+    require('./start-worker.js'); //Starts all the requests and functions.
 });

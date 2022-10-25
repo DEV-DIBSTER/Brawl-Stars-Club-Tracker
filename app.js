@@ -33,7 +33,3 @@ Server.listen(Configuration.Port, function () {
     console.log(`${Divider}`);    
     console.log(`${Chalk.greenBright(`[Server] | `)}${Chalk.bold.blueBright(`Server is online at: ${Configuration.URL} at port ${Configuration.Port}!`)}`);
 });
-
-Server.on('listening', async function () {
-    require('./worker.js');
-});
