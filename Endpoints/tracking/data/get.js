@@ -22,6 +22,10 @@ module.exports = ({
         const ClubResponse = await getClub(Input.replace('#', '').replace('%23', ''));
         if(ClubResponse == "No Data Found") return Response.status(404).send('Invalid club tag characters!');
 
-        //Still need to code this.
+        const OldData = await ClubTracking.findOne({
+            clubTag: ClubResponse.data.tag
+        });
+
+        if(OldData == undefined) return Response.status(404).send('The club with this tag is not being tracked!');
     }
 });
