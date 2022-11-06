@@ -27,5 +27,14 @@ module.exports = ({
         });
 
         if(OldData == undefined) return Response.status(404).send('The club with this tag is not being tracked!');
+
+        await ClubTracking.findOneAndDelete({
+            clubTag: ClubResponse.data.tag
+        }).catch(console.error);
+
+        await Response.status(202).send({
+            message: "Successfully deleted club from tracking.",
+            ClubTag: ClubResponse.data.tag
+        });
     }
 });

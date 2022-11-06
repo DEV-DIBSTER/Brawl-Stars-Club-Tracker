@@ -1,12 +1,12 @@
 const Express = require('express');
-const Configuration = require('../config.json');
+const Configuration = require('../../config.json');
 
-const ClubData = require('../Database/ClubData.js');
-const ClubGraphs = require('../Database/ClubGraphs.js');
-const ClubLogs = require('../Database/ClubLogs.js');
-const ClubTracking = require('../Database/ClubTracking.js');
-const { isTag } = require('../Functions/isTag.js');
-const { getClub } = require('../Functions/getClub.js');
+const ClubData = require('../../Database/ClubData.js');
+const ClubGraphs = require('../../Database/ClubGraphs.js');
+const ClubLogs = require('../../Database/ClubLogs.js');
+const ClubTracking = require('../../Database/ClubTracking.js');
+const { isTag } = require('../../Functions/isTag.js');
+const { getClub } = require('../../Functions/getClub.js');
 
 module.exports = ({
     /**
@@ -31,19 +31,17 @@ module.exports = ({
             clubTag: ClubResponse.data.tag
         });
 
-        if(OldData != undefined) return Response.status(404).send('This club is already being tracked! If you want to update, please use the update endpoint!');
+        if(OldData == undefined) return Response.status(404).send('The club with this tag is not being tracked!');
 
-        const NewClubTracking = await ClubTracking.create({
-            clubTag: ClubResponse.data.tag,
-            timeSaved: `${Date.now()}`,
+        await ClubTracking.findOneAndUpdate({
+            clubTag: ClubResponse.data.tag
+        }, {
             isTrackingLogs: JSONResponse.isTrackingLogs,
-            isTrackingGraphs: JSONResponse.isTrackingGraphs
-        });
-
-        NewClubTracking.save();
+            isTrackingGraphs: JSON.isTrackingGraphs
+        }).catch(console.error);
 
         await Response.status(202).send({
-            message: "Successfully added club to tracking.",
+            message: "Successfully changed club in tracking.",
             ClubTag: ClubResponse.data.tag,
             isTrackingLogs: JSONResponse.isTrackingLogs,
             isTrackingGraphs: JSONResponse.isTrackingGraphs

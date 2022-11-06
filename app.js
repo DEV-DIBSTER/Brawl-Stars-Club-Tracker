@@ -15,11 +15,17 @@ const { getClub } = require('./Functions/getClub.js');
 
 Server.all('/tracking/:clubTag', async (Request, Response) => {
     if(Request.method == 'POST'){
-        await require('./Endpoints/tracking-post.js').run(Request, Response);
+        await require('./Endpoints/tracking/post.js').run(Request, Response);
     } else if (Request.method == 'DELETE') {
-        await require('./Endpoints/tracking-delete.js').run(Request, Response);
+        await require('./Endpoints/tracking/delete.js').run(Request, Response);
     } else if (Request.method == 'PATCH') {
-        await require('./Endpoints/tracking-patch.js').run(Request, Response);
+        await require('./Endpoints/tracking/patch.js').run(Request, Response);
+    };
+});
+
+Server.all('/data/clublogs/:clubTag', async (Request, Response) => {
+    if(Request.method == 'GET'){
+        await require('./Endpoints/data/clublogs/get.js').run(Request, Response);
     };
 });
 
