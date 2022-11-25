@@ -31,7 +31,7 @@ async function StartWorkers(){
         };
 
         if (Club.isTrackingGraphs == true) {
-
+            await require('./Workers/ClubGraphs.js').run(OldData, ClubResponse);
         };
 
         //Saves the new Data.
