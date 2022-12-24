@@ -8,9 +8,7 @@ const { getClub } = require('../Functions/getClub.js');
 
 
 module.exports = ({
-    run: async (OldData, ClubResponse) => {
-        return;
-                
+    run: async (OldData, ClubResponse) => {                
         const ClubGraphsData = await (await ClubGraphs.find()).filter(m => m.clubTag == ClubResponse.data.tag);
 
         if(ClubGraphsData.length == 0){
@@ -18,7 +16,7 @@ module.exports = ({
 
             const NewClubGraphsData = new ClubGraphs({
                 clubTag: ClubResponse.data.tag,
-                timeSaved: `${Date.now()}`,
+                timeSaved: Date.now().toString(),
                 number: {
                     daily: 0,
                     weekly: 0,

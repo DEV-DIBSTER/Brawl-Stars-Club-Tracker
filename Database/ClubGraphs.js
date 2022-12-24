@@ -1,17 +1,5 @@
 const Mongoose = require('mongoose');
 
-const LabelsSchema = new Mongoose.Schema({
-    type: String
-});
-
-const DataSchema = new Mongoose.Schema({
-    type: String
-});
-
-const TimeSchema = new Mongoose.Schema({
-    type: String
-});
-
 const ClubGraphsModel = new Mongoose.Schema({
     clubTag: { type: String, required: true },
     timeSaved: { type: String, requied: true },
@@ -20,9 +8,9 @@ const ClubGraphsModel = new Mongoose.Schema({
         weekly: { required: true, type: Number },
         seasonal: { required: true, type: Number }
     },
-    labels: [LabelsSchema],
-    data: [DataSchema],
-    time: [TimeSchema]
+    labels: [],
+    data: [],
+    time: []
 });
 
 const ClubGraphs = Mongoose.model('ClubGraphs', ClubGraphsModel);

@@ -18,12 +18,12 @@ module.exports = ({
 
         let ClubsThatDisabledTracking2 = ActiveClubGraphs.filter(
             (f) =>
-                !ActiveClubs.some((d) => d.clubTag === f.club.tag),
+                !ActiveClubs.some((d) => d.clubTag === f.clubTag),
         );
     
         let ClubsThatDisabledTracking3 = ActiveClubData.filter(
             (f) =>
-                !ActiveClubs.some((d) => d.clubTag === f.data.tag),
+                !ActiveClubs.some((d) => d.clubTag === f.clubTag),
         );
     
         Promise.all(ClubsThatDisabledTracking1.map(async (Club) => {
