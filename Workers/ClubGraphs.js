@@ -67,8 +67,8 @@ module.exports = ({
             let NewTime = OldGraphData.time;
 
             function IsSameDay(Time1, Time2) {
-                const Date1 = new Date(Time1);
-                const Date2 = new Date(Time2);
+                const Date1 = new Date(parseInt(Time1));
+                const Date2 = new Date(parseInt(Time2));
                 
                 // Checks the year, the month, and the date.
                 return (
@@ -78,7 +78,7 @@ module.exports = ({
                 );
             };
 
-            if (IsSameDay(NewTime[NewTime.length - 1], Date.now())){
+            if (IsSameDay(NewTime[NewTime.length - 1], `${Date.now()}`)){
                 NewLabels.pop();
                 NewData.pop();
                 NewTime.pop(); //Removes the last element of the array.
