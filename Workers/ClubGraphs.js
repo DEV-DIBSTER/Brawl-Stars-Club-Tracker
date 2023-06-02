@@ -3,10 +3,6 @@ const ClubTracking = require('../Database/ClubTracking.js');
 const ClubGraphs = require('../Database/ClubGraphs.js');
 const ClubData = require('../Database/ClubData.js');
 
-const { isTag } = require('../Functions/isTag.js');
-const { getClub } = require('../Functions/getClub.js');
-
-
 module.exports = ({
     run: async (OldData, ClubResponse) => {                
         const ClubGraphsData = await (await ClubGraphs.find()).filter(m => m.clubTag == ClubResponse.data.tag);
@@ -31,6 +27,7 @@ module.exports = ({
         } else if (ClubGraphsData.length == 1) {
             const OldGraphData = ClubGraphsData[0];
 
+            //Convert 3 letter Month strings to integer values.
             function MonthValue(Month){
                 if (Month == "Jan") {
                     return 1;
@@ -69,9 +66,32 @@ module.exports = ({
             let NewData = OldGraphData.data;
             let NewTime = OldGraphData.time;
 
-            NewLabels.push(`${Today.toLocaleString('en-US', {month: 'short'})} ${Today.getDate()}`);
-            NewData.push(`${ClubResponse.data.trophies}`);
-            NewTime.push(`${Date.now()}`);
+            function IsSameDay(Time1, Time2) {
+                const Date1 = new Date(Time1);
+                const Date2 = new Date(Time2);
+                
+                // Checks the year, the month, and the date.
+                return (
+                    Date1.getFullYear() === Date2.getFullYear() &&
+                    Date1.getMonth() === Date2.getMonth() &&
+                    Date1.getDate() === Date2.getDate()
+                );
+            };
+
+            if (IsSameDay(NewTime[NewTime.length - 1], Date.now())){
+                NewLabels.pop();
+                NewData.pop();
+                NewTime.pop(); //Removes the last element of the array.
+
+                NewLabels.push(`${Today.toLocaleString('en-US', {month: 'short'})} ${Today.getDate()}`);
+                NewData.push(`${ClubResponse.data.trophies}`);
+                NewTime.push(`${Date.now()}`);
+            } else {
+                NewLabels.push(`${Today.toLocaleString('en-US', {month: 'short'})} ${Today.getDate()}`);
+                NewData.push(`${ClubResponse.data.trophies}`);
+                NewTime.push(`${Date.now()}`);
+            };
+
 
             await ClubGraphs.findOneAndUpdate({
                 clubTag: ClubResponse.data.tag
