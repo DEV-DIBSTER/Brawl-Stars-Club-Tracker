@@ -29,6 +29,12 @@ Server.all('/data/clublogs/:clubTag', async (Request, Response) => {
     };
 });
 
+Server.all('/data/clubgraphs/:clubTag', async (Request, Response) => {
+    if(Request.method == 'GET'){
+        await require('./Endpoints/data/clubgraphs/get.js').run(Request, Response);
+    };
+});
+
 Server.get('/', async (Request, Response) => {
     return Response.status(200).send(`Nice try but this is locked.`);
 });
