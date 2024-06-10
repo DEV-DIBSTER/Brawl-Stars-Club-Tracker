@@ -8,7 +8,7 @@ const { isTag } = require('./Functions/isTag.js');
 const { getClub } = require('./Functions/getClub.js');
 
 async function StartWorkers(){
-    const Clubs = await ClubTracking.find();
+    const Clubs = await ClubTracking.find(); // Gets all the clubs that are being tracked.
 
     Promise.all(Clubs.map(async (Club) => {
         const OldData = await ClubData.findOne({clubTag: Club.clubTag});
